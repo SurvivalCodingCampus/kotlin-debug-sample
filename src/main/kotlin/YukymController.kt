@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter
 
 class YukymController {
 
-    val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd"))
+    val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
     lateinit var nowTime: String
 
