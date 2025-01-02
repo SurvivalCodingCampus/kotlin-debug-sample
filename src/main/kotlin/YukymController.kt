@@ -5,9 +5,9 @@ import java.time.format.DateTimeFormatter
 
 class YukymController {
 
-    val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd"))
+    private val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
-    lateinit var nowTime: String
+    private lateinit var nowTime: String
 
     fun getTyA(): String {
         val timeDataOne = _getTimeDataOne(nowDate)
