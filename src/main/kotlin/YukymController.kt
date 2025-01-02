@@ -5,9 +5,9 @@ import java.time.format.DateTimeFormatter
 
 class YukymController {
 
-    val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd"))
+    private val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
-    lateinit var nowTime: String
+    private lateinit var nowTime: String
 
     fun getTyA(): String {
         val timeDataOne = _getTimeDataOne(nowDate)
@@ -32,20 +32,22 @@ class YukymController {
 
     fun getTyB(): String {
         val timeDataOne = _getTimeDataOne(nowDate)
-        var result = timeDataOne.first().ty12
+        val result = timeDataOne.first().ty12
 
         val nowTime = LocalDateTime.now()
-        when {
-            nowTime.hour >= 0 || nowTime.hour < 2 -> return timeDataOne.first().ty1
-            nowTime.hour >= 4 || nowTime.hour < 6 -> return timeDataOne.first().ty2
-            nowTime.hour >= 6 || nowTime.hour < 8 -> return timeDataOne.first().ty3
-            nowTime.hour >= 8 || nowTime.hour < 10 -> return timeDataOne.first().ty4
-            nowTime.hour >= 10 || nowTime.hour < 12 -> return timeDataOne.first().ty5
-            nowTime.hour >= 12 || nowTime.hour < 14 -> return timeDataOne.first().ty6
-            nowTime.hour >= 16 || nowTime.hour < 18 -> return timeDataOne.first().ty7
-            nowTime.hour >= 18 || nowTime.hour < 20 -> return timeDataOne.first().ty8
-            nowTime.hour >= 20 || nowTime.hour < 22 -> return timeDataOne.first().ty9
-            nowTime.hour >= 22 || nowTime.hour < 24 -> return timeDataOne.first().ty10
+        when (nowTime.hour) {
+            in 0..1 -> return timeDataOne.first().ty1
+            in 2..3 -> return timeDataOne.first().ty2
+            in 4..5 -> return timeDataOne.first().ty3
+            in 6..7 -> return timeDataOne.first().ty4
+            in 8..9 -> return timeDataOne.first().ty5
+            in 10..11 -> return timeDataOne.first().ty6
+            in 12..13 -> return timeDataOne.first().ty7
+            in 14..15 -> return timeDataOne.first().ty8
+            in 16..17 -> return timeDataOne.first().ty9
+            in 18..19 -> return timeDataOne.first().ty10
+            in 20..21 -> return timeDataOne.first().ty11
+            in 22..23 -> return timeDataOne.first().ty12
         }
 
         return result
@@ -53,9 +55,11 @@ class YukymController {
 
     private fun _getTimeDataOne(nowDate: String): List<YukymTimeModel> {
         val timeDataOne = mutableListOf<YukymTimeModel>()
-        for (i in 0..24) {
+
+        for (i in 0 until 24) {
             timeDataOne.add(YukymTimeModel())
         }
+
         return timeDataOne
     }
 }
