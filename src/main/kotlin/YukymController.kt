@@ -5,10 +5,12 @@ import java.time.format.DateTimeFormatter
 
 class YukymController {
 
-    val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd"))
+    //    val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd")) // mm은 '분'을 의미
+    val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) // MM은 '월'을 의미
 
     lateinit var nowTime: String
 
+    // 1. 자시의 국 : 갑자1국 = getTyOne()의 값
     fun getTyA(): String {
         val timeDataOne = _getTimeDataOne(nowDate)
 
@@ -30,12 +32,12 @@ class YukymController {
         }
     }
 
-    fun getTyB(): String {
-        val timeDataOne = _getTimeDataOne(nowDate)
+    fun getTyB(): String {  // 현재 시간을 기반으로 특정 ty 값을 반환하는 함수
+        val timeDataOne = _getTimeDataOne(nowDate)  // YukymTimeModel 객체 리스트를 반환
         var result = timeDataOne.first().ty12
-
         val nowTime = LocalDateTime.now()
         when {
+            // 잘못된 시간 비교. ||는 두 조건이 둘다 참이면 참이 된다. 올바르게 범위를 지정하려면 &&로 고쳐야 한다.
             nowTime.hour >= 0 || nowTime.hour < 2 -> return timeDataOne.first().ty1
             nowTime.hour >= 4 || nowTime.hour < 6 -> return timeDataOne.first().ty2
             nowTime.hour >= 6 || nowTime.hour < 8 -> return timeDataOne.first().ty3
@@ -53,8 +55,8 @@ class YukymController {
 
     private fun _getTimeDataOne(nowDate: String): List<YukymTimeModel> {
         val timeDataOne = mutableListOf<YukymTimeModel>()
-        for (i in 0..24) {
-            timeDataOne.add(YukymTimeModel())
+        for (i in 0..23) {  // 0..24는 25번 반복되고 있다. 24시간 단위를 기준으로 한다면 0..23으로 수정해야 한다
+            timeDataOne.add(YukymTimeModel(ty1 = "갑자${i + 1}국"))
         }
         return timeDataOne
     }
