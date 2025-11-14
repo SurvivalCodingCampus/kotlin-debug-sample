@@ -5,59 +5,40 @@ import java.time.format.DateTimeFormatter
 
 class YukymController {
 
-    val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd"))
-
-    lateinit var nowTime: String
+    val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
     fun getTyA(): String {
-        val timeDataOne = _getTimeDataOne(nowDate)
-
-        if (timeDataOne.isNotEmpty()) {
-            nowTime = timeDataOne.first().ty1
-
-            val month = nowDate.substring(5, 7)
-            return when (month) {
-                "01", "02" -> "경오1국"
-                "03", "04" -> "경오2국"
-                "05", "06" -> "경오3국"
-                "07", "08" -> "경오4국"
-                "09", "10" -> "경오5국"
-                "11", "12" -> "경오6국"
-                else -> nowTime
-            }
-        } else {
-            return "경오7국"
+        val month = nowDate.substring(5, 7)
+        return when (month) {
+            "01", "02" -> "경오1국"
+            "03", "04" -> "경오2국"
+            "05", "06" -> "경오3국"
+            "07", "08" -> "경오4국"
+            "09", "10" -> "경오5국"
+            "11", "12" -> "경오6국"
+            else -> "경오7국"
         }
     }
 
     fun getTyB(): String {
-        val timeDataOne = _getTimeDataOne(nowDate)
-        var result = timeDataOne.first().ty12
-
+        val timeData = YukymTimeModel()
         val nowTime = LocalDateTime.now()
-        when {
-            nowTime.hour >= 0 || nowTime.hour < 2 -> return timeDataOne.first().ty1
-            nowTime.hour >= 4 || nowTime.hour < 6 -> return timeDataOne.first().ty2
-            nowTime.hour >= 6 || nowTime.hour < 8 -> return timeDataOne.first().ty3
-            nowTime.hour >= 8 || nowTime.hour < 10 -> return timeDataOne.first().ty4
-            nowTime.hour >= 10 || nowTime.hour < 12 -> return timeDataOne.first().ty5
-            nowTime.hour >= 12 || nowTime.hour < 14 -> return timeDataOne.first().ty6
-            nowTime.hour >= 16 || nowTime.hour < 18 -> return timeDataOne.first().ty7
-            nowTime.hour >= 18 || nowTime.hour < 20 -> return timeDataOne.first().ty8
-            nowTime.hour >= 20 || nowTime.hour < 22 -> return timeDataOne.first().ty9
-            nowTime.hour >= 22 || nowTime.hour < 24 -> return timeDataOne.first().ty10
+        when (nowTime.hour) {
+            in 0..1 -> return timeData.ty1
+            in 4..5 -> return timeData.ty2
+            in 6..7 -> return timeData.ty3
+            in 8..9 -> return timeData.ty4
+            in 10..11 -> return timeData.ty5
+            in 12..13 -> return timeData.ty6
+            in 16..17 -> return timeData.ty7
+            in 18..19 -> return timeData.ty8
+            in 20..21 -> return timeData.ty9
+            in 22..23 -> return timeData.ty10
         }
 
-        return result
+        return timeData.ty12
     }
 
-    private fun _getTimeDataOne(nowDate: String): List<YukymTimeModel> {
-        val timeDataOne = mutableListOf<YukymTimeModel>()
-        for (i in 0..24) {
-            timeDataOne.add(YukymTimeModel())
-        }
-        return timeDataOne
-    }
 }
 
 data class YukymTimeModel(
