@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter
 
 class YukymController {
 
-    val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd"))
+    val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
     lateinit var nowTime: String
 
@@ -36,16 +36,16 @@ class YukymController {
 
         val nowTime = LocalDateTime.now()
         when {
-            nowTime.hour >= 0 || nowTime.hour < 2 -> return timeDataOne.first().ty1
-            nowTime.hour >= 4 || nowTime.hour < 6 -> return timeDataOne.first().ty2
-            nowTime.hour >= 6 || nowTime.hour < 8 -> return timeDataOne.first().ty3
-            nowTime.hour >= 8 || nowTime.hour < 10 -> return timeDataOne.first().ty4
-            nowTime.hour >= 10 || nowTime.hour < 12 -> return timeDataOne.first().ty5
-            nowTime.hour >= 12 || nowTime.hour < 14 -> return timeDataOne.first().ty6
-            nowTime.hour >= 16 || nowTime.hour < 18 -> return timeDataOne.first().ty7
-            nowTime.hour >= 18 || nowTime.hour < 20 -> return timeDataOne.first().ty8
-            nowTime.hour >= 20 || nowTime.hour < 22 -> return timeDataOne.first().ty9
-            nowTime.hour >= 22 || nowTime.hour < 24 -> return timeDataOne.first().ty10
+            nowTime.hour >= 0 && nowTime.hour < 2 -> return timeDataOne.first().ty1
+            nowTime.hour >= 4 && nowTime.hour < 6 -> return timeDataOne.first().ty2
+            nowTime.hour >= 6 && nowTime.hour < 8 -> return timeDataOne.first().ty3
+            nowTime.hour >= 8 && nowTime.hour < 10 -> return timeDataOne.first().ty4
+            nowTime.hour >= 10 && nowTime.hour < 12 -> return timeDataOne.first().ty5
+            nowTime.hour >= 12 && nowTime.hour < 14 -> return timeDataOne.first().ty6
+            nowTime.hour >= 16 && nowTime.hour < 18 -> return timeDataOne.first().ty7
+            nowTime.hour >= 18 && nowTime.hour < 20 -> return timeDataOne.first().ty8
+            nowTime.hour >= 20 && nowTime.hour < 22 -> return timeDataOne.first().ty9
+            nowTime.hour >= 22 && nowTime.hour < 24 -> return timeDataOne.first().ty10
         }
 
         return result
