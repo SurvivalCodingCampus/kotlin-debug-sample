@@ -3,14 +3,20 @@ package com.survivalcoding
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class YukymController {
+/*
+A 타입 국 = 월(月)에 따른 국
+B 타입 국 = 시간(時)에 따른 국
+ */
 
-    val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd"))
+class YukymController(
+    private val now: LocalDateTime = LocalDateTime.now()
+) {
+    val nowDate = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
     lateinit var nowTime: String
 
     fun getTyA(): String {
-        val timeDataOne = _getTimeDataOne(nowDate)
+        val timeDataOne = _getTimeDataOne()
 
         if (timeDataOne.isNotEmpty()) {
             nowTime = timeDataOne.first().ty1
@@ -31,27 +37,29 @@ class YukymController {
     }
 
     fun getTyB(): String {
-        val timeDataOne = _getTimeDataOne(nowDate)
-        var result = timeDataOne.first().ty12
+        val timeDataOne = _getTimeDataOne()
+        if (timeDataOne.isEmpty()) return "데이터 없음"
 
-        val nowTime = LocalDateTime.now()
-        when {
-            nowTime.hour >= 0 || nowTime.hour < 2 -> return timeDataOne.first().ty1
-            nowTime.hour >= 4 || nowTime.hour < 6 -> return timeDataOne.first().ty2
-            nowTime.hour >= 6 || nowTime.hour < 8 -> return timeDataOne.first().ty3
-            nowTime.hour >= 8 || nowTime.hour < 10 -> return timeDataOne.first().ty4
-            nowTime.hour >= 10 || nowTime.hour < 12 -> return timeDataOne.first().ty5
-            nowTime.hour >= 12 || nowTime.hour < 14 -> return timeDataOne.first().ty6
-            nowTime.hour >= 16 || nowTime.hour < 18 -> return timeDataOne.first().ty7
-            nowTime.hour >= 18 || nowTime.hour < 20 -> return timeDataOne.first().ty8
-            nowTime.hour >= 20 || nowTime.hour < 22 -> return timeDataOne.first().ty9
-            nowTime.hour >= 22 || nowTime.hour < 24 -> return timeDataOne.first().ty10
+        val d = timeDataOne.first()
+
+        return when (now.hour) {
+            in 0..1 -> d.ty1
+            in 2..3 -> d.ty2
+            in 4..5 -> d.ty3
+            in 6..7 -> d.ty4
+            in 8..9 -> d.ty5
+            in 10..11 -> d.ty6
+            in 12..13 -> d.ty7
+            in 14..15 -> d.ty8
+            in 16..17 -> d.ty9
+            in 18..19 -> d.ty10
+            in 20..21 -> d.ty11
+            in 22..23 -> d.ty12
+            else -> d.ty12
         }
-
-        return result
     }
 
-    private fun _getTimeDataOne(nowDate: String): List<YukymTimeModel> {
+    private fun _getTimeDataOne(): List<YukymTimeModel> {
         val timeDataOne = mutableListOf<YukymTimeModel>()
         for (i in 0..24) {
             timeDataOne.add(YukymTimeModel())
