@@ -5,38 +5,36 @@ import java.time.format.DateTimeFormatter
 
 class YukymController {
 
-    val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+    val nowDate = LocalDateTime.now()
 
     fun getTyA(): String {
-        val month = nowDate.substring(5, 7)
-        return when (month) {
-            "01", "02" -> "경오1국"
-            "03", "04" -> "경오2국"
-            "05", "06" -> "경오3국"
-            "07", "08" -> "경오4국"
-            "09", "10" -> "경오5국"
-            "11", "12" -> "경오6국"
+        return when (nowDate.monthValue) {
+            1,2 -> "경오1국"
+            3,4 -> "경오2국"
+            5,6 -> "경오3국"
+            7,8 -> "경오4국"
+            9,10 -> "경오5국"
+            11,12 -> "경오6국"
             else -> "경오7국"
         }
     }
 
     fun getTyB(): String {
         val timeData = YukymTimeModel()
-        val nowTime = LocalDateTime.now()
-        when (nowTime.hour) {
-            in 0..1 -> return timeData.ty1
-            in 4..5 -> return timeData.ty2
-            in 6..7 -> return timeData.ty3
-            in 8..9 -> return timeData.ty4
-            in 10..11 -> return timeData.ty5
-            in 12..13 -> return timeData.ty6
-            in 16..17 -> return timeData.ty7
-            in 18..19 -> return timeData.ty8
-            in 20..21 -> return timeData.ty9
-            in 22..23 -> return timeData.ty10
+        return when (nowDate.hour) {
+            in 0..1 -> timeData.ty1
+            in 4..5 -> timeData.ty2
+            in 6..7 -> timeData.ty3
+            in 8..9 -> timeData.ty4
+            in 10..11 -> timeData.ty5
+            in 12..13 -> timeData.ty6
+            in 16..17 -> timeData.ty7
+            in 18..19 -> timeData.ty8
+            in 20..21 -> timeData.ty9
+            in 22..23 -> timeData.ty10
+            else -> timeData.ty12
         }
 
-        return timeData.ty12
     }
 
 }
