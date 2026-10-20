@@ -1,76 +1,38 @@
 package com.survivalcoding
 
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.time.LocalDate
+import java.time.LocalTime
+import kotlin.String
 
 class YukymController {
 
-    val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd"))
-
-    lateinit var nowTime: String
-
     fun getTyA(): String {
-        val timeDataOne = _getTimeDataOne(nowDate)
+        val curMonth = LocalDate.now().monthValue
 
-        if (timeDataOne.isNotEmpty()) {
-            nowTime = timeDataOne.first().ty1
-
-            val month = nowDate.substring(5, 7)
-            return when (month) {
-                "01", "02" -> "경오1국"
-                "03", "04" -> "경오2국"
-                "05", "06" -> "경오3국"
-                "07", "08" -> "경오4국"
-                "09", "10" -> "경오5국"
-                "11", "12" -> "경오6국"
-                else -> nowTime
-            }
-        } else {
-            return "경오7국"
+        return when (curMonth) {
+            in 1..2 -> "경오1국"
+            in 3..4 -> "경오2국"
+            in 5..6 -> "경오3국"
+            in 7..8 -> "경오4국"
+            in 9..10 -> "경오5국"
+            else -> "경오6국" // 11, 12
         }
     }
 
     fun getTyB(): String {
-        val timeDataOne = _getTimeDataOne(nowDate)
-        var result = timeDataOne.first().ty12
+        val curHour = LocalTime.now().hour
 
-        val nowTime = LocalDateTime.now()
-        when {
-            nowTime.hour >= 0 || nowTime.hour < 2 -> return timeDataOne.first().ty1
-            nowTime.hour >= 4 || nowTime.hour < 6 -> return timeDataOne.first().ty2
-            nowTime.hour >= 6 || nowTime.hour < 8 -> return timeDataOne.first().ty3
-            nowTime.hour >= 8 || nowTime.hour < 10 -> return timeDataOne.first().ty4
-            nowTime.hour >= 10 || nowTime.hour < 12 -> return timeDataOne.first().ty5
-            nowTime.hour >= 12 || nowTime.hour < 14 -> return timeDataOne.first().ty6
-            nowTime.hour >= 16 || nowTime.hour < 18 -> return timeDataOne.first().ty7
-            nowTime.hour >= 18 || nowTime.hour < 20 -> return timeDataOne.first().ty8
-            nowTime.hour >= 20 || nowTime.hour < 22 -> return timeDataOne.first().ty9
-            nowTime.hour >= 22 || nowTime.hour < 24 -> return timeDataOne.first().ty10
+        return when (curHour) {
+            in 0..1 -> "갑자1국"
+            in 4..5 -> "갑자2국"
+            in 6..7 -> "갑자3국"
+            in 8..9 -> "갑자4국"
+            in 10..11 -> "갑자5국"
+            in 12..13 -> "갑자6국"
+            in 16..17 -> "갑자7국"
+            in 18..19 -> "갑자8국"
+            in 20..21 -> "갑자9국"
+            else -> "갑자10국" // 22, 23
         }
-
-        return result
-    }
-
-    private fun _getTimeDataOne(nowDate: String): List<YukymTimeModel> {
-        val timeDataOne = mutableListOf<YukymTimeModel>()
-        for (i in 0..24) {
-            timeDataOne.add(YukymTimeModel())
-        }
-        return timeDataOne
     }
 }
-
-data class YukymTimeModel(
-    val ty1: String = "갑자1국",
-    val ty2: String = "갑자2국",
-    val ty3: String = "갑자3국",
-    val ty4: String = "갑자4국",
-    val ty5: String = "갑자5국",
-    val ty6: String = "갑자6국",
-    val ty7: String = "갑자7국",
-    val ty8: String = "갑자8국",
-    val ty9: String = "갑자9국",
-    val ty10: String = "갑자10국",
-    val ty11: String = "갑자11국",
-    val ty12: String = "갑자12국"
-)
